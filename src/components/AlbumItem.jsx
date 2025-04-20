@@ -1,0 +1,45 @@
+import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { PlayerContext } from "../context/PlayerContext"
+
+
+const AlbumItem = ({image,name,desc,id}) => {
+
+  const navigate = useNavigate()
+  const { playWithId } = useContext(PlayerContext)
+  
+  const handlePlay = (e) => {
+    e.stopPropagation()
+    playWithId(0) // Play the first song of the album
+  }
+
+  return (
+    <div 
+      onClick={() => navigate(`/album/${id}`)} 
+      className="h-full p-4 bg-[#181818] rounded-lg cursor-pointer hover:bg-[#282828] transition-colors duration-300 group relative w-full"
+    >
+      <div className="relative mb-3">
+        <img 
+          className="w-full aspect-square object-cover rounded-md shadow-lg" 
+          src={image} 
+          alt={name} 
+          loading="lazy"
+        />
+        <button 
+          onClick={handlePlay}
+          className="absolute right-2 bottom-2 w-10 h-10 rounded-full bg-[#1db954] shadow-xl flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:scale-105 hover:bg-[#1ed760]"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black" className="w-5 h-5">
+            <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      <div className="space-y-1 overflow-hidden">
+        <h3 className="font-bold text-base truncate">{name}</h3>
+        <p className="text-[#a7a7a7] text-sm line-clamp-2 break-words">{desc}</p>
+      </div>
+    </div>
+  )
+}
+
+export default AlbumItem
